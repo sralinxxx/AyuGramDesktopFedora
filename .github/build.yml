@@ -1,0 +1,32 @@
+name: Build AyuGram
+on:
+  workflow_dispatch: # Позволяет запускать сборку вручную кнопкой
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config \
+            qt6-base-dev qt6-image-formats-plugins qt6-wayland-dev \
+            libavcodec-dev libavformat-dev libswscale-dev libopus-dev \
+            libssl-dev libxxhash-dev liblz4-dev libminizip-dev
+
+      - name: Build AyuGram
+        run: |
+          mkdir build && cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
+          ninja
+
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: AyuGram-Binary
+          path: build/AyuGram # Проверь точное имя выходного файла после сборки
