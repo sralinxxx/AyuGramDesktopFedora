@@ -1,6 +1,6 @@
 name: Build AyuGram
 on:
-  workflow_dispatch: # Позволяет запускать сборку вручную кнопкой
+  workflow_dispatch:
 
 jobs:
   build:
@@ -29,4 +29,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: AyuGram-Binary
-          path: build/AyuGram # Проверь точное имя выходного файла после сборки
+          path: build/AyuGram
